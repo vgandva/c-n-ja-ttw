@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <title>jayabharath 2bhk twin tower</title>
+  <link rel="stylesheet" href="vendor/reset.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    #vrButton {
+        position: fixed;
+        bottom: 10px;
+        right: 10px; /* Move to the right */
+        background-color: #ff5e00;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: none;
+        z-index: 1000;
+    }
+    #vrButton.active {
+        display: block;
+    }
+    .reticle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 30px;
+        height: 30px;
+        background-color: #ff5e00;
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        display: none;
+    }
+    #attribution {
+        position: fixed;
+        bottom: 10px;
+        left: 10px; /* Keep attribution on the left */
+        font-size: 14px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+</style>
+
+</head>
+<body class="multiple-scenes">
+
+  <div id="pano"></div>
+
+  <div id="sceneList">
+    <ul class="scenes">
+      <a href="javascript:void(0)" class="scene" data-id="0-living-1">
+        <li class="text">living 1</li>
+      </a>
+      <a href="javascript:void(0)" class="scene" data-id="1-living-2">
+        <li class="text">living 2</li>
+      </a>
+      <a href="javascript:void(0)" class="scene" data-id="2-dining-1">
+        <li class="text">dining 1</li>
+      </a>
+      <a href="javascript:void(0)" class="scene" data-id="3-living3">
+        <li class="text">living3</li>
+      </a>
+    </ul>
+  </div>
+
+  <div id="titleBar">
+    <h1 class="sceneName"></h1>
+  </div>
+
+  <a href="javascript:void(0)" id="autorotateToggle">
+    <img class="icon off" src="img/play.png">
+    <img class="icon on" src="img/pause.png">
+  </a>
+
+  <a href="javascript:void(0)" id="fullscreenToggle">
+    <img class="icon off" src="img/fullscreen.png">
+    <img class="icon on" src="img/windowed.png">
+  </a>
+
+  <a href="javascript:void(0)" id="sceneListToggle">
+    <img class="icon off" src="img/expand.png">
+    <img class="icon on" src="img/collapse.png">
+  </a>
+
+  <a href="javascript:void(0)" id="viewUp" class="viewControlButton viewControlButton-1">
+    <img class="icon" src="img/up.png">
+  </a>
+  <a href="javascript:void(0)" id="viewDown" class="viewControlButton viewControlButton-2">
+    <img class="icon" src="img/down.png">
+  </a>
+  <a href="javascript:void(0)" id="viewLeft" class="viewControlButton viewControlButton-3">
+    <img class="icon" src="img/left.png">
+  </a>
+  <a href="javascript:void(0)" id="viewRight" class="viewControlButton viewControlButton-4">
+    <img class="icon" src="img/right.png">
+  </a>
+  <a href="javascript:void(0)" id="viewIn" class="viewControlButton viewControlButton-5">
+    <img class="icon" src="img/plus.png">
+  </a>
+  <a href="javascript:void(0)" id="viewOut" class="viewControlButton viewControlButton-6">
+    <img class="icon" src="img/minus.png">
+  </a>
+
+  <!-- VR Button -->
+  <div id="vrButton" class="active">
+    Enter VR Mode
+  </div>
+
+  <!-- Reticle -->
+  <div class="reticle"></div>
+
+  <script src="vendor/screenfull.min.js"></script>
+  <script src="vendor/bowser.min.js"></script>
+  <script src="vendor/marzipano.js"></script>
+
+  <script src="webvr-polyfill.js"></script>
+  <script src="webxr-polyfill.js"></script>
+
+  <script src="data.js"></script>
+  <script src="index.js"></script>
+  <script src="WebVrView.js"></script>
+  <script src="attribution.js"></script>
+  <script>attribution('Created by', 'nathalli studio', 'https://nathallibuildingdesignandrenderingstudio.in/');</script>
+
+  <script>
+    // Check for WebXR Support
+    if (navigator.xr) {
+      document.getElementById('vrButton').style.display = 'block';
+    } else if (navigator.getVRDisplays) {
+      document.getElementById('vrButton').style.display = 'block';
+    } else {
+      document.getElementById('vrButton').style.display = 'none';
+    }
+
+    // VR Mode Toggle Handler (WebXR or WebVR)
+    var isVrMode = false;
+    var vrButton = document.getElementById('vrButton');
+    var reticle = document.querySelector('.reticle');
+
+    vrButton.addEventListener('click', function() {
+      isVrMode = !isVrMode;
+      if (isVrMode) {
+        enterVrMode();
+      } else {
+        exitVrMode();
+      }
+    });
+
+    // Enter VR Mode: Hide UI, show reticle
+    function enterVrMode() {
+      reticle.style.display = 'block'; // Show reticle
+      vrButton.textContent = 'Exit VR Mode';
+    }
+
+    // Exit VR Mode: Show UI, hide reticle
+    function exitVrMode() {
+      reticle.style.display = 'none'; // Hide reticle
+      vrButton.textContent = 'Enter VR Mode';
+    }
+  </script>
+</body>
+</html>
